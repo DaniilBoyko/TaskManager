@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const styles = {
   todoItem: {
@@ -19,7 +20,7 @@ const styles = {
 };
 
 function TodoItem(props) {
-  const { todo, removeItem, onChange } = props;
+  const { todo, onRemoveItem, onChange } = props;
   const isItemExpired =
     new Date(
       todo.dueDate.getFullYear(),
@@ -48,11 +49,22 @@ function TodoItem(props) {
       >
         {todo.label} ({todo.dueDate.toDateString()})
       </label>
-      <button className="remove-btn" onClick={() => removeItem(todo.id)}>
+      <button className="remove-btn" onClick={() => onRemoveItem(todo.id)}>
         &times;
       </button>
     </div>
   );
 }
+
+TodoItem.propTypes = {
+  onRemoveItem: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  todo: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired,
+    dueDate: PropTypes.instanceOf(Date).isRequired,
+    isCompleted: PropTypes.bool.isRequired,
+  }),
+};
 
 export default TodoItem;

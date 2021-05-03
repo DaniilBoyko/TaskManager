@@ -1,5 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
+import PropTypes from "prop-types";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -77,5 +78,9 @@ function AddTodoItem(props) {
     </div>
   );
 }
+
+AddTodoItem.propTypes = {
+  addTodoItem: PropTypes.func.isRequired,
+};
 
 export default AddTodoItem;
