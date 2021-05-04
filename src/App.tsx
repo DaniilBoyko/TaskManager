@@ -1,6 +1,5 @@
 import React from "react";
 import TodoManagment from "./Todo/TodoManagment";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

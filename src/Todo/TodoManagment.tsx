@@ -1,8 +1,9 @@
 import React from "react";
 import TodoList from "./TodoList";
 import AddTodoItem from "./AddTodoItem";
+import { TodoItemModel } from "./TodoItem";
 
-const initialTodoItems = [
+const initialTodoItems: Array<TodoItemModel> = [
   {
     id: 1,
     label: "Todo Item 1",
@@ -20,8 +21,8 @@ const initialTodoItems = [
 function TodoManagment() {
   const [todoItems, setTodoItems] = React.useState(initialTodoItems);
 
-  const addTodoItem = (label, dueDate) => {
-    const newTodo = {
+  const addTodoItem = (label: string, dueDate: Date) => {
+    const newTodo: TodoItemModel = {
       id: getNextTodoId(),
       label,
       dueDate,
@@ -30,17 +31,17 @@ function TodoManagment() {
     setTodoItems((prevTodos) => [newTodo, ...prevTodos]);
   };
 
-  const removeTodoItem = (id) => {
+  const removeTodoItem = (id: number) => {
     setTodoItems((prevTodoItems) =>
       prevTodoItems.filter((item) => item.id !== id)
     );
   };
 
-  const toggleTodo = (id) => {
+  const toggleTodo = (id: number) => {
     setTodoItems((prevTodos) =>
       prevTodos.map((todo) => {
         if (todo.id === id) {
-          todo.isCompleted = !todo.isCompleted;
+          todo = { ...todo, isCompleted: !todo.isCompleted };
         }
         return todo;
       })

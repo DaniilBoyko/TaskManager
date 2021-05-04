@@ -1,8 +1,13 @@
 import React from "react";
-import TodoItem from "./TodoItem";
-import PropTypes from "prop-types";
+import TodoItem, { TodoItemModel } from "./TodoItem";
 
-function TodoList(props) {
+export type TodoListProps = {
+  removeItem: (id: number) => any;
+  onToggle: (id: number) => any;
+  todoItems: Array<TodoItemModel>;
+};
+
+const TodoList: React.FC<TodoListProps> = (props) => {
   const { todoItems, removeItem, onToggle } = props;
 
   return (
@@ -17,12 +22,6 @@ function TodoList(props) {
       ))}
     </div>
   );
-}
-
-TodoList.propTypes = {
-  removeItem: PropTypes.func.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  todoItems: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default TodoList;

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const styles = {
   todoItem: {
@@ -19,7 +18,20 @@ const styles = {
   },
 };
 
-function TodoItem(props) {
+export type TodoItemModel = {
+  id: number;
+  label: string;
+  isCompleted: boolean;
+  dueDate: Date;
+};
+
+export type TodoItemProps = {
+  onRemoveItem: (id: number) => any;
+  onChange: (id: number) => any;
+  todo: TodoItemModel;
+};
+
+const TodoItem: React.FC<TodoItemProps> = (props) => {
   const { todo, onRemoveItem, onChange } = props;
   const isItemExpired =
     new Date(
@@ -33,19 +45,20 @@ function TodoItem(props) {
   const completedItemStyles = todo.isCompleted ? styles.completedItem : {};
 
   return (
-    <div style={styles.todoItem}>
+    <div style={styles.todoItem as React.CSSProperties}>
       <input
-        style={styles.input}
         type="checkbox"
         checked={todo.isCompleted}
         onChange={() => onChange(todo.id)}
       />
       <label
-        style={{
-          ...styles.label,
-          ...expiredItemStyles,
-          ...completedItemStyles,
-        }}
+        style={
+          {
+            ...styles.label,
+            ...expiredItemStyles,
+            ...completedItemStyles,
+          } as React.CSSProperties
+        }
       >
         {todo.label} ({todo.dueDate.toDateString()})
       </label>
@@ -54,17 +67,6 @@ function TodoItem(props) {
       </button>
     </div>
   );
-}
-
-TodoItem.propTypes = {
-  onRemoveItem: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  todo: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    label: PropTypes.string.isRequired,
-    dueDate: PropTypes.instanceOf(Date).isRequired,
-    isCompleted: PropTypes.bool.isRequired,
-  }),
 };
 
 export default TodoItem;

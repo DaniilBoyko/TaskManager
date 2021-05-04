@@ -1,6 +1,5 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import PropTypes from "prop-types";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,25 +16,25 @@ const styles = {
     alignItems: "center",
     marginTop: "8px",
     width: "300px",
-    label: {
-      width: "100px",
-    },
+  },
+  label: {
+    width: "100px",
   },
   addBtn: {
     marginTop: "10px",
   },
 };
 
-function AddTodoItem(props) {
+export type AddTodoItemProps = {
+  addTodoItem: (title: string, dueDate: Date) => any;
+};
+
+const AddTodoItem: React.FC<AddTodoItemProps> = (props) => {
   const { addTodoItem } = props;
   const [todoTitle, setTodoTitle] = React.useState("");
   const [todoDueDate, setTodoDueDate] = React.useState(new Date());
 
-  const handleTitleChange = (event) => {
-    setTodoTitle(event.target.value);
-  };
-
-  const handleAdd = (event) => {
+  const handleAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (todoTitle.trim()) {
@@ -45,42 +44,38 @@ function AddTodoItem(props) {
     }
   };
 
-  const getShortDate = (date) => {
+  const getShortDate = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   };
 
   return (
-    <div style={styles.addTodoItem}>
-      <div style={styles.inputBlock}>
-        <label style={styles.inputBlock.label}>Title:</label>
+    <div style={styles.addTodoItem as React.CSSProperties}>
+      <div style={styles.inputBlock as React.CSSProperties}>
+        <label style={styles.label}>Title:</label>
         <input
           className="form-control"
           type="text"
           value={todoTitle}
-          onChange={handleTitleChange}
+          onChange={(e) => setTodoTitle(e.target.value)}
         ></input>
       </div>
-      <div style={styles.inputBlock}>
-        <label style={styles.inputBlock.label}>Due Date:</label>
+      <div style={styles.inputBlock as React.CSSProperties}>
+        <label style={styles.label}>Due Date:</label>
         <DatePicker
           className="form-control"
           selected={todoDueDate}
-          onChange={(date) => setTodoDueDate(date)}
+          onChange={(date: any) => setTodoDueDate(date)}
         />
       </div>
       <button
         className="btn btn-primary"
-        style={styles.addBtn}
+        style={styles.label}
         onClick={handleAdd}
       >
         Add Todo
       </button>
     </div>
   );
-}
-
-AddTodoItem.propTypes = {
-  addTodoItem: PropTypes.func.isRequired,
 };
 
 export default AddTodoItem;
