@@ -1,29 +1,36 @@
 import React from "react";
 import DatePicker from "react-datepicker";
+import { createUseStyles } from "react-jss";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const styles = {
-  addTodoItem: {
+const useStyles = createUseStyles({
+  todoItem: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginTop: "40px",
+    margin: {
+      top: 40,
+    },
   },
   inputBlock: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: "8px",
-    width: "300px",
-  },
-  label: {
-    width: "100px",
+    margin: {
+      top: 8,
+    },
+    width: 300,
+    "& label": {
+      width: 100,
+    },
   },
   addBtn: {
-    marginTop: "10px",
+    margin: {
+      top: 10,
+    },
   },
-};
+});
 
 export type AddTodoItemProps = {
   addTodoItem: (title: string, dueDate: Date) => any;
@@ -33,6 +40,7 @@ const AddTodoItem: React.FC<AddTodoItemProps> = (props) => {
   const { addTodoItem } = props;
   const [todoTitle, setTodoTitle] = React.useState("");
   const [todoDueDate, setTodoDueDate] = React.useState(new Date());
+  const classes = useStyles();
 
   const handleAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -49,9 +57,9 @@ const AddTodoItem: React.FC<AddTodoItemProps> = (props) => {
   };
 
   return (
-    <div style={styles.addTodoItem as React.CSSProperties}>
-      <div style={styles.inputBlock as React.CSSProperties}>
-        <label style={styles.label}>Title:</label>
+    <div className={classes.todoItem}>
+      <div className={classes.inputBlock}>
+        <label>Title:</label>
         <input
           className="form-control"
           type="text"
@@ -59,8 +67,8 @@ const AddTodoItem: React.FC<AddTodoItemProps> = (props) => {
           onChange={(e) => setTodoTitle(e.target.value)}
         ></input>
       </div>
-      <div style={styles.inputBlock as React.CSSProperties}>
-        <label style={styles.label}>Due Date:</label>
+      <div className={classes.inputBlock}>
+        <label>Due Date:</label>
         <DatePicker
           className="form-control"
           selected={todoDueDate}
@@ -68,8 +76,7 @@ const AddTodoItem: React.FC<AddTodoItemProps> = (props) => {
         />
       </div>
       <button
-        className="btn btn-primary"
-        style={styles.label}
+        className={"btn btn-primary " + classes.addBtn}
         onClick={handleAdd}
       >
         Add Todo

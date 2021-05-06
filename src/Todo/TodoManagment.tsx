@@ -7,14 +7,14 @@ const initialTodoItems: Array<TodoItemModel> = [
   {
     id: 1,
     label: "Todo Item 1",
-    dueDate: new Date(2021, 4, 3),
     isCompleted: true,
+    dueDate: new Date(2021, 4, 3),
   },
   {
     id: 2,
     label: "Todo Item 2",
-    dueDate: new Date(2021, 3, 4),
     isCompleted: false,
+    dueDate: new Date(2021, 3, 4),
   },
 ];
 
@@ -22,12 +22,7 @@ function TodoManagment() {
   const [todoItems, setTodoItems] = React.useState(initialTodoItems);
 
   const addTodoItem = (label: string, dueDate: Date) => {
-    const newTodo: TodoItemModel = {
-      id: getNextTodoId(),
-      label,
-      dueDate,
-      isCompleted: false,
-    };
+    const newTodo = { id: getNextTodoId(), label, isCompleted: false, dueDate };
     setTodoItems((prevTodos) => [newTodo, ...prevTodos]);
   };
 

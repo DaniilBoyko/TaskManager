@@ -1,21 +1,36 @@
 import React from "react";
+import { createUseStyles } from "react-jss";
 
-const styles = {
+const useStyles = createUseStyles<string, TodoItemProps>({
   todoItem: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: "10px",
+    margin: {
+      top: 10,
+    },
   },
   label: {
-    marginLeft: "5px",
+    margin: {
+      left: 5,
+    },
+    backgroundColor: (props) =>
+      isTodoItemExpired(props.todo) && !props.todo.isCompleted
+        ? "#ff9999"
+        : "#ffffff",
+    textDecoration: (props) =>
+      props.todo.isCompleted ? "line-through" : "none",
   },
-  expiredItem: {
-    backgroundColor: "#ff9999",
-  },
-  completedItem: {
-    textDecoration: "line-through",
-  },
+});
+
+const isTodoItemExpired = (item: TodoItemModel) => {
+  return (
+    new Date(
+      item.dueDate.getFullYear(),
+      item.dueDate.getMonth(),
+      item.dueDate.getDate() + 1
+    ) < new Date()
+  );
 };
 
 export type TodoItemModel = {
@@ -33,33 +48,16 @@ export type TodoItemProps = {
 
 const TodoItem: React.FC<TodoItemProps> = (props) => {
   const { todo, onRemoveItem, onChange } = props;
-  const isItemExpired =
-    new Date(
-      todo.dueDate.getFullYear(),
-      todo.dueDate.getMonth(),
-      todo.dueDate.getDate() + 1
-    ) < new Date();
-
-  const expiredItemStyles =
-    isItemExpired && !todo.isCompleted ? styles.expiredItem : {};
-  const completedItemStyles = todo.isCompleted ? styles.completedItem : {};
+  const classes = useStyles(props);
 
   return (
-    <div style={styles.todoItem as React.CSSProperties}>
+    <div className={classes.todoItem}>
       <input
         type="checkbox"
         checked={todo.isCompleted}
         onChange={() => onChange(todo.id)}
       />
-      <label
-        style={
-          {
-            ...styles.label,
-            ...expiredItemStyles,
-            ...completedItemStyles,
-          } as React.CSSProperties
-        }
-      >
+      <label className={classes.label}>
         {todo.label} ({todo.dueDate.toDateString()})
       </label>
       <button className="remove-btn" onClick={() => onRemoveItem(todo.id)}>
