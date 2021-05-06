@@ -1,36 +1,8 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import { createUseStyles } from "react-jss";
+import useStyles from "./useAddTodoItemStyles";
 
 import "react-datepicker/dist/react-datepicker.css";
-
-const useStyles = createUseStyles({
-  todoItem: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    margin: {
-      top: 40,
-    },
-  },
-  inputBlock: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    margin: {
-      top: 8,
-    },
-    width: 300,
-    "& label": {
-      width: 100,
-    },
-  },
-  addBtn: {
-    margin: {
-      top: 10,
-    },
-  },
-});
 
 export type AddTodoItemProps = {
   addTodoItem: (title: string, dueDate: Date) => any;

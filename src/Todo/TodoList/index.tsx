@@ -1,5 +1,5 @@
 import React from "react";
-import TodoItem, { TodoItemModel } from "./TodoItem";
+import TodoItem, { TodoItemModel } from "../TodoItem";
 
 export type TodoListProps = {
   removeItem: (id: number) => any;
