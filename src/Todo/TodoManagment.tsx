@@ -1,25 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TodoList from "./TodoList";
 import AddTodoItem from "./AddTodoItem";
 import { TodoItemModel } from "./TodoItem";
 
-const initialTodoItems: Array<TodoItemModel> = [
-  {
-    id: 1,
-    label: "Todo Item 1",
-    isCompleted: true,
-    dueDate: new Date(2021, 4, 3),
-  },
-  {
-    id: 2,
-    label: "Todo Item 2",
-    isCompleted: false,
-    dueDate: new Date(2021, 3, 4),
-  },
-];
-
 function TodoManagment() {
-  const [todoItems, setTodoItems] = React.useState(initialTodoItems);
+  const [todoItems, setTodoItems] = React.useState<Array<TodoItemModel>>([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos?_limit=5")
+      .then((response) => response.json())
+      .then((todos: Array<any>) => {
+        const items = todos.map<TodoItemModel>((t: any) => {
+          return {
+            id: t.id,
+            label: t.title,
+            isCompleted: t.isCompleted,
+            dueDate: new Date(),
+          };
+        });
+        setTodoItems(items);
+      });
+  }, []);
 
   const addTodoItem = (label: string, dueDate: Date) => {
     const newTodo = { id: getNextTodoId(), label, isCompleted: false, dueDate };
